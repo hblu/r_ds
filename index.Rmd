@@ -11,7 +11,7 @@ mode        : selfcontained # {standalone, draft}
 ext_widgets: {rCharts: [libraries/nvd3]}
 github:
   user: hblu
-  repo: stat
+  repo: r_ds
 --- &twocol
 
 ```{r setup, include=FALSE,echo = F, message = F, warning = F, tidy = F}
