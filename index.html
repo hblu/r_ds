@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>R中的数据类型</title>
+  <meta charset="utf-8">
+  <meta name="description" content="R中的数据类型">
+  <meta name="author" content="陆海波">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="libraries/widgets/quiz/css/demo.css"></link>
+<link rel=stylesheet href="libraries/widgets/bootstrap/css/bootstrap.css"></link>
+<link rel=stylesheet href="libraries/widgets/interactive/css/aceeditor.css"></link>
+<link rel=stylesheet href="libraries/widgets/nvd3/css/nv.d3.css"></link>
+<link rel=stylesheet href="libraries/widgets/nvd3/css/rNVD3.css"></link>
+<link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  <script src="libraries/widgets/nvd3/js/jquery-1.8.2.min.js"></script>
+<script src="libraries/widgets/nvd3/js/d3.v3.min.js"></script>
+<script src="libraries/widgets/nvd3/js/nv.d3.min-new.js"></script>
+<script src="libraries/widgets/nvd3/js/fisheye.js"></script>
+
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>R中的数据类型</h1>
+    <h2></h2>
+    <p>陆海波<br/>上海应用技术大学</p>
+  </hgroup>
+    <a href="https://github.com/hblu/stat/zipball/gh-pages" class="example">
+     Download
+    </a>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>热门电影数据集简介</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>以一个简单的电影票房实际数据为例, 介绍在实际数据处理中R语言中的基本类型、基本操作</h3>
+
+<div style='float:left;width:48%;'>
+  <p>收集了2016年1月到5月间上映的19部热门电影共10个变量的基本信息，以此为例说明如何在 <code>R</code> 语言中进行相关操作</p>
+
+<table><thead>
+<tr>
+<th>变量名</th>
+<th>说明</th>
+<th>变量名</th>
+<th>说明</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>boxoffice</td>
+<td>上映三月内票房</td>
+<td><strong>director</strong></td>
+<td>导演名字</td>
+</tr>
+<tr>
+<td>doubanscore</td>
+<td>豆瓣评分</td>
+<td><strong>star1</strong></td>
+<td>主演1</td>
+</tr>
+<tr>
+<td>type</td>
+<td>影片类型</td>
+<td><strong>index1</strong></td>
+<td>主演1最近一月的综合搜索指数</td>
+</tr>
+<tr>
+<td>duration</td>
+<td>电影时长</td>
+<td><strong>star2</strong></td>
+<td>主演2</td>
+</tr>
+<tr>
+<td>showtime</td>
+<td>上映日期</td>
+<td><strong>index2</strong></td>
+<td>主演2最近一月的综合搜索指数</td>
+</tr>
+</tbody></table>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><img src="assets/img/gongfu.png" class="fit100" /></p>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>读入数据</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>当我们把这个数据集第一次读入 <code>R</code> 中时, 它会以数据框 <code>data.frame</code> 的形式存储</li>
+<li>暂且可以理解为类似于Excel里常见的表格</li>
+</ul>
+
+<pre><code class="r">movie = read.csv(&quot;movie.csv&quot;)
+xtable(head(movie,3))
+</code></pre>
+
+<!-- html table generated in R 3.3.2 by xtable 1.8-2 package -->
+
+<!-- Wed Mar  1 01:28:49 2017 -->
+
+<table border=1>
+<tr> <th>  </th> <th> name </th> <th> boxoffice </th> <th> doubanscore </th> <th> type </th> <th> duration </th> <th> showtime </th> <th> director </th> <th> star1 </th> <th> index1 </th> <th> star2 </th> <th> index2 </th>  </tr>
+  <tr> <td align="right"> 1 </td> <td> 叶问3 </td> <td align="right"> 77060.44 </td> <td align="right"> 6.40 </td> <td> 动作 </td> <td align="right"> 105 </td> <td> 2016/3/4 </td> <td> 叶伟信 </td> <td> 甄子丹 </td> <td align="right"> 11385 </td> <td> 张晋 </td> <td align="right"> 4105 </td> </tr>
+  <tr> <td align="right"> 2 </td> <td> 美人鱼 </td> <td align="right"> 338583.26 </td> <td align="right"> 6.90 </td> <td> 喜剧 </td> <td align="right">  93 </td> <td> 2016/2/8 </td> <td> 周星驰 </td> <td> 邓超 </td> <td align="right"> 41310 </td> <td> 林允 </td> <td align="right"> 9292 </td> </tr>
+  <tr> <td align="right"> 3 </td> <td> 女汉子真爱公式 </td> <td align="right"> 6184.45 </td> <td align="right"> 4.50 </td> <td> 喜剧 </td> <td align="right">  93 </td> <td> 2016/3/18 </td> <td> 郭大雷 </td> <td> 赵丽颖 </td> <td align="right"> 181979 </td> <td> 张翰 </td> <td align="right"> 44277 </td> </tr>
+   </table>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>1. 数值型 (<code>numeric</code>)</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>比如数据集中的 <code>doubanscore</code>, <code>boxoffice</code> </li>
+<li>通常用 <code>&lt;-</code> 或 <code>=</code> 给一个变量赋予数字时, 就默认生成数值型数据</li>
+</ul>
+
+<pre><code class="r">x = 2
+class(x)
+</code></pre>
+
+<pre><code>[1] &quot;numeric&quot;
+</code></pre>
+
+<pre><code class="r">class(movie$boxoffice)
+</code></pre>
+
+<pre><code>[1] &quot;numeric&quot;
+</code></pre>
+
+<pre><code class="r">class(movie$doubanscore)
+</code></pre>
+
+<pre><code>[1] &quot;numeric&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h3>但要注意, 有时候他们会悄悄的出状况</h3>
+  </hgroup>
+  <article data-timings="">
+    
+<div class="quiz-text quiz-multitext well">
+  <p>比如你觉得下面几个命了会输出什么结果呢？</p>
+
+<ol>
+<li><p><code>exp(1000)</code></p></li>
+<li><p><code>10/0</code></p></li>
+<li><p><code>exp(1000)/exp(1000)</code></p></li>
+</ol>
+
+  <button class="quiz-submit btn btn-primary">Submit</button>
+  <button class="quiz-toggle-hint btn btn-info">Show Hint</button>
+  <button class="quiz-show-answer btn btn-success">Show Answer</button>
+  <button class="quiz-clear btn btn-danger">Clear</button>
+  
+  <div class="quiz-explanation">
+  <ol>
+<li><span class='answer'>Inf</span></li>
+<li><span class='answer'>Inf</span></li>
+<li><span class='answer'>NaN</span></li>
+</ol>
+
+</div>
+<div class="quiz-hint">
+  <p>R会把所有超过电脑存储限制的数字当做正无穷, 一般这个值大约为 \(1.8\times 10^{38}\)</p>
+
+</div>
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>2. 字符型 (<code>character</code>)</h2>
+  </hgroup>
+  <article data-timings="">
+    
+<div style='float:left;width:48%;'>
+  <h3>用单引号或双引号定义的就是字符型</h3>
+
+<pre><code class="r">x = &quot;2&quot;
+class(x)
+</code></pre>
+
+<pre><code>[1] &quot;character&quot;
+</code></pre>
+
+<pre><code class="r">y = &#39;star&#39;
+class(y)
+</code></pre>
+
+<pre><code>[1] &quot;character&quot;
+</code></pre>
+
+</div>
+<div style='float:right;width:48%;'>
+  <ul>
+<li>但并不是所有的文字都是字符型</li>
+<li>如数据集中的 <code>director</code>, <code>star1</code></li>
+</ul>
+
+<pre><code class="r">class(movie$director)
+</code></pre>
+
+<pre><code>[1] &quot;factor&quot;
+</code></pre>
+
+<pre><code class="r">class(movie$star1)
+</code></pre>
+
+<pre><code>[1] &quot;factor&quot;
+</code></pre>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>3. 逻辑型 (<code>logical</code>)</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>逻辑型的结果可以进行加减运算
+
+<ul>
+<li><code>TRUE</code> 对应 1</li>
+<li><code>FALSE</code> 对应 0</li>
+</ul></li>
+<li>想知道<美人鱼>是不是一部喜剧?</li>
+</ul>
+
+<pre><code class="r">movie$type[movie$name == &quot;美人鱼&quot;] == &quot;喜剧&quot;
+</code></pre>
+
+<pre><code>[1] TRUE
+</code></pre>
+
+<ul>
+<li>想在数据集中挑选大于7分的喜剧电影名?</li>
+</ul>
+
+<pre><code class="r">movie$name[movie$type == &quot;喜剧&quot; &amp; movie$doubanscore &gt; 7]
+</code></pre>
+
+<pre><code>[1] 功夫熊猫3
+19 Levels: 澳门风云三 百鸟朝凤 北京遇上西雅图之不二情书 冰河追凶 大唐玄奘 钢刀 ... 夜孔雀
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>4. 因子型 (<code>factor</code>)</h2>
+  </hgroup>
+  <article data-timings="">
+    
+<div style='float:left;width:48%;'>
+  <ul>
+<li>统计中的分类型数据 (定性数据)</li>
+<li>常用 <code>factor()</code> 定义</li>
+</ul>
+
+<pre><code class="r">genders = c(&quot;男&quot;, &quot;女&quot;, &quot;男&quot;, &quot;男&quot;, &quot;女&quot;)
+factor(genders)
+</code></pre>
+
+<pre><code>[1] 男 女 男 男 女
+Levels: 男 女
+</code></pre>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p>字符型数据转换为因子型分成两步</p>
+
+<ol>
+<li>建立字符 <code>&quot;男&quot;</code>, <code>&quot;女&quot;</code> 与整数 <code>1</code>, <code>2</code> 的映射关系
+
+<ul>
+<li><code>&quot;男&quot;</code> -&gt; 1</li>
+<li><code>&quot;女&quot;</code> -&gt; 2</li>
+</ul></li>
+<li>按照映射关系, 将 <code>genders</code> 转换为整数存储
+
+<ul>
+<li><code>c(1,2,1,1,2)</code></li>
+</ul></li>
+</ol>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h3>在 <code>factor</code> 中添加参数 <code>ordered</code>, 即可存储定序变量</h3>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">class = factor(c(&quot;Poor&quot;, &quot;Improved&quot;, &quot;Excellent&quot;), ordered = TRUE)
+class
+</code></pre>
+
+<pre><code>[1] Poor      Improved  Excellent
+Levels: Excellent &lt; Improved &lt; Poor
+</code></pre>
+
+<ul>
+<li>此时它内部存储方式为 <code>1=Excellent</code>, <code>2=Improved</code>, <code>3=Poor</code></li>
+<li>默认按照字母顺序存储</li>
+<li>可通过增加参数 <code>levels</code> 自定义逻辑顺序</li>
+</ul>
+
+<pre><code class="r">class = factor(c(&quot;Poor&quot;, &quot;Improved&quot;, &quot;Excellent&quot;), ordered = TRUE,
+               levels = c(&quot;Poor&quot;, &quot;Improved&quot;, &quot;Excellent&quot;))
+class
+</code></pre>
+
+<pre><code>[1] Poor      Improved  Excellent
+Levels: Poor &lt; Improved &lt; Excellent
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>不同类型数据间如何进行转换?</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>当我们读取一个数据表格时, 如果不做任何处理, 软件会自动把字符型变成因子型变量</li>
+<li>&quot;因子&quot; 实际对应的是定性和定序变量, 因此如果你需要这两组类型的变量出现, 就可以考虑把字符变成因子类型了</li>
+</ul>
+
+<h3>如何实现字符型和因子型数据的自由切换?</h3>
+
+<ul>
+<li><code>as.</code>函数
+
+<ul>
+<li><code>as.factor</code> 把其他类型数据转换成因子型</li>
+<li><code>as.character</code> 把其他类型数据转换成字符型</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>5. 时间类数据 (<code>Date</code> / <code>POSIXct</code> / <code>POSIXt</code>)</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>通常, 时间类数据是以字符串形式输入到 <code>R</code> 中的, 因此第一步我们首先需要把这些字符转换成 <code>R</code> 可以识别的时间类型数据
+
+<ul>
+<li><code>Date</code> 日期数据不包括时间和时区</li>
+<li><code>POSIXct</code> / <code>POSIXt</code> 类型数据包括日期, 时间和时区</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>如何把字符转化成 <code>Date</code> 日期格式?</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>用 <code>as.Date</code> 函数转换</li>
+<li>通过参数 <code>format</code> 指定输入字符的格式</li>
+</ul>
+
+<pre><code class="r">class(movie$showtime)
+</code></pre>
+
+<pre><code>[1] &quot;factor&quot;
+</code></pre>
+
+<pre><code class="r">movie$showtime &lt;- as.Date(movie$showtime)
+head(movie$showtime)
+</code></pre>
+
+<pre><code>[1] &quot;2016-03-04&quot; &quot;2016-02-08&quot; &quot;2016-03-18&quot; &quot;2016-02-08&quot; &quot;2016-02-08&quot; &quot;2016-01-29&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h3><code>as.Date</code> 所能接受的默认时间格式为 <code>2017-03-01</code> 或 <code>2017/03/01</code></h3>
+  </hgroup>
+  <article data-timings="">
+    <p>如果不是这样的格式怎么办?</p>
+
+<ul class = "build incremental">
+<li>通过添加参数 <code>format</code></li>
+</ul>
+
+<pre><code class="r">x &lt;- c(&quot;1jan1960&quot;, &quot;2jan1960&quot;, &quot;31mar1960&quot;, &quot;30jul1960&quot;)
+y &lt;- as.Date(x)
+</code></pre>
+
+<pre><code>Error in charToDate(x): character string is not in a standard unambiguous format
+</code></pre>
+
+<pre><code class="r">y &lt;- as.Date(x,format=&quot;%d%b%Y&quot;)
+y
+</code></pre>
+
+<pre><code>[1] &quot;1960-01-01&quot; &quot;1960-01-02&quot; &quot;1960-03-31&quot; &quot;1960-07-30&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>日期格式表</h2>
+  </hgroup>
+  <article data-timings="">
+    <table><thead>
+<tr>
+<th>符号</th>
+<th>含义</th>
+<th>示例</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>%d</code></td>
+<td>days as a number (1-31)</td>
+<td>01-31</td>
+</tr>
+<tr>
+<td><code>%a</code></td>
+<td>abbreviated weekday</td>
+<td>Mon</td>
+</tr>
+<tr>
+<td><code>%A</code></td>
+<td>unabbreviated weekday</td>
+<td>Monday</td>
+</tr>
+<tr>
+<td><code>%m</code></td>
+<td>month (01-12)</td>
+<td>01-12</td>
+</tr>
+<tr>
+<td><code>%b</code></td>
+<td>abbreviated month</td>
+<td>Jan</td>
+</tr>
+<tr>
+<td><code>%B</code></td>
+<td>abbreviated month</td>
+<td>January</td>
+</tr>
+<tr>
+<td><code>%y</code></td>
+<td>2-digit year</td>
+<td>17</td>
+</tr>
+<tr>
+<td><code>%Y</code></td>
+<td>4-digit year</td>
+<td>2017</td>
+</tr>
+</tbody></table>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>如何把字符转化成 <code>POSIXct</code> / <code>POSIXt</code> 时间格式</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>函数 <code>as.POSIXct</code></li>
+<li>默认格式是 <code>2017/2/27  10:15:24</code>, <code>2017-2-27    10:15:24</code></li>
+</ul>
+
+<pre><code class="r">as.POSIXct(&quot;March-03-2017 01:30:00&quot;)
+</code></pre>
+
+<pre><code>Error in as.POSIXlt.character(x, tz, ...): character string is not in a standard unambiguous format
+</code></pre>
+
+<pre><code class="r">as.POSIXct(&quot;March-03-2017 01:30:00&quot;,format=&quot;%B-%d-%Y %H:%M:%S&quot;)
+</code></pre>
+
+<pre><code>[1] &quot;2017-03-03 01:30:00 CST&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>如何把时间摆弄成你想要的形式?</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>函数 <code>format</code> 可以用来更改时间数据的输出格式, 甚至还可以提取你想要的某个部分</p>
+
+<pre><code class="r">m=head(movie$showtime, 1) #原始日期数据
+format(m,format=&quot;%B %d %Y&quot;) #改成月日年的格式
+</code></pre>
+
+<pre><code>[1] &quot;March 04 2016&quot;
+</code></pre>
+
+<pre><code class="r">format(m,format=&quot;%B %d %Y %A&quot;) #加入星期信息
+</code></pre>
+
+<pre><code>[1] &quot;March 04 2016 Friday&quot;
+</code></pre>
+
+<pre><code class="r">format(m,format=&quot;%B&quot;) #只提取出月份信息
+</code></pre>
+
+<pre><code>[1] &quot;March&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-16" style="background:;">
+  <article data-timings="">
+    <pre><code class="r">Sys.time()#输出系统时间
+</code></pre>
+
+<pre><code>[1] &quot;2017-03-01 01:28:50 CST&quot;
+</code></pre>
+
+<pre><code class="r">class(Sys.time())#查看时间类型
+</code></pre>
+
+<pre><code>[1] &quot;POSIXct&quot; &quot;POSIXt&quot; 
+</code></pre>
+
+<pre><code class="r">format(Sys.time(),format = &quot;%B %d %Y&quot;)#提取部分时间信息
+</code></pre>
+
+<pre><code>[1] &quot;March 01 2017&quot;
+</code></pre>
+
+<pre><code class="r">format(Sys.time(),format = &quot;%Y/%B/%a %H:%M:%S&quot;)#提取部分时间信息
+</code></pre>
+
+<pre><code>[1] &quot;2017/March/Wed 01:28:50&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2><code>lubridate</code>: 一款处理时间数据的专用包</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>主要有两类函数</p>
+
+<ul>
+<li>处理时点数据</li>
+<li>处理时段数据</li>
+</ul>
+
+<pre><code class="r">library(lubridate)
+x &lt;- c(20090101,&quot;2009-01-02&quot;,&quot;2009 01 03&quot;,&quot;2009-1-4&quot;,&quot;2009-1,5&quot;,&quot;Created on 2009 1 6&quot;,
+       &quot;200901 !!! 07&quot;)
+x = ymd(x)
+x
+</code></pre>
+
+<pre><code>[1] &quot;2009-01-01&quot; &quot;2009-01-02&quot; &quot;2009-01-03&quot; &quot;2009-01-04&quot; &quot;2009-01-05&quot; &quot;2009-01-06&quot; &quot;2009-01-07&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-18" style="background:;">
+  <article data-timings="">
+    <pre><code class="r">mday(x)
+</code></pre>
+
+<pre><code>[1] 1 2 3 4 5 6 7
+</code></pre>
+
+<pre><code class="r">wday(x)
+</code></pre>
+
+<pre><code>[1] 5 6 7 1 2 3 4
+</code></pre>
+
+<pre><code class="r">hour(&quot;2015-11-20 01:30:00&quot;)
+</code></pre>
+
+<pre><code>[1] 1
+</code></pre>
+
+<pre><code class="r">minute(&quot;2015-11-20 01:30:00&quot;)
+</code></pre>
+
+<pre><code>[1] 30
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>时间类数据的操作</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>求任意两个日期距离的天数</li>
+</ul>
+
+<pre><code class="r">begin=as.Date(&quot;2016-03-04&quot;)
+end=as.Date(&quot;2016-05-08&quot;)
+(during=end-begin)
+</code></pre>
+
+<pre><code>Time difference of 65 days
+</code></pre>
+
+<ul>
+<li>求任意两个日期距离的周数和小时数</li>
+</ul>
+
+<pre><code class="r">difftime(end,begin,units = &quot;weeks&quot;)
+</code></pre>
+
+<pre><code>Time difference of 9.29 weeks
+</code></pre>
+
+<pre><code class="r">difftime(end,begin,units = &quot;hours&quot;)
+</code></pre>
+
+<pre><code>Time difference of 1560 hours
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-20" style="background:;">
+  <hgroup>
+    <h2>排序</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>单独对时间进行排序</li>
+</ul>
+
+<pre><code class="r">head(movie$showtime)
+</code></pre>
+
+<pre><code>[1] &quot;2016-03-04&quot; &quot;2016-02-08&quot; &quot;2016-03-18&quot; &quot;2016-02-08&quot; &quot;2016-02-08&quot; &quot;2016-01-29&quot;
+</code></pre>
+
+<pre><code class="r">head(sort(movie$showtime))
+</code></pre>
+
+<pre><code>[1] &quot;2016-01-29&quot; &quot;2016-02-08&quot; &quot;2016-02-08&quot; &quot;2016-02-08&quot; &quot;2016-03-04&quot; &quot;2016-03-18&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-21" style="background:;">
+  <article data-timings="">
+    <ul>
+<li>对数据表格中的数据按照时间顺序排列</li>
+</ul>
+
+<pre><code class="r">res = head(movie[order(movie$showtime),c(&quot;name&quot;,&quot;showtime&quot;)])
+kable(res, type = &quot;html&quot;)
+</code></pre>
+
+<table><thead>
+<tr>
+<th align="left"></th>
+<th align="left">name</th>
+<th align="left">showtime</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left">6</td>
+<td align="left">功夫熊猫3</td>
+<td align="left">2016-01-29</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left">美人鱼</td>
+<td align="left">2016-02-08</td>
+</tr>
+<tr>
+<td align="left">4</td>
+<td align="left">西游记之孙悟空三打白骨精</td>
+<td align="left">2016-02-08</td>
+</tr>
+<tr>
+<td align="left">5</td>
+<td align="left">澳门风云三</td>
+<td align="left">2016-02-08</td>
+</tr>
+<tr>
+<td align="left">1</td>
+<td align="left">叶问3</td>
+<td align="left">2016-03-04</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">女汉子真爱公式</td>
+<td align="left">2016-03-18</td>
+</tr>
+</tbody></table>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='热门电影数据集简介'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='读入数据'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='1. 数值型 (<code>numeric</code>)'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='但要注意, 有时候他们会悄悄的出状况'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='2. 字符型 (<code>character</code>)'>
+         5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='3. 逻辑型 (<code>logical</code>)'>
+         6
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='4. 因子型 (<code>factor</code>)'>
+         7
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='在 <code>factor</code> 中添加参数 <code>ordered</code>, 即可存储定序变量'>
+         8
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=9 title='不同类型数据间如何进行转换?'>
+         9
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=10 title='5. 时间类数据 (<code>Date</code> / <code>POSIXct</code> / <code>POSIXt</code>)'>
+         10
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=11 title='如何把字符转化成 <code>Date</code> 日期格式?'>
+         11
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=12 title='<code>as.Date</code> 所能接受的默认时间格式为 <code>2017-03-01</code> 或 <code>2017/03/01</code>'>
+         12
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=13 title='日期格式表'>
+         13
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=14 title='如何把字符转化成 <code>POSIXct</code> / <code>POSIXt</code> 时间格式'>
+         14
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=15 title='如何把时间摆弄成你想要的形式?'>
+         15
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=16 title='NA'>
+         16
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=17 title='<code>lubridate</code>: 一款处理时间数据的专用包'>
+         17
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=18 title='NA'>
+         18
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=19 title='时间类数据的操作'>
+         19
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=20 title='排序'>
+         20
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=21 title='NA'>
+         21
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  <script src="libraries/widgets/quiz/js/jquery.quiz.js"></script>
+<script src="libraries/widgets/quiz/js/mustache.min.js"></script>
+<script src="libraries/widgets/quiz/js/quiz-app.js"></script>
+<script src="libraries/widgets/bootstrap/js/bootstrap.min.js"></script>
+<script src="libraries/widgets/bootstrap/js/bootbox.min.js"></script>
+<script src="libraries/widgets/interactive/js/ace/js/ace.js"></script>
+<script src="libraries/widgets/interactive/js/opencpu-0.5.js"></script>
+<script src="libraries/widgets/interactive/js/interactive.js"></script>
+
+  
+  <script>  
+  $(function (){ 
+    $("#example").popover(); 
+    $("[rel='tooltip']").tooltip(); 
+  });  
+  </script>  
+  <script src="shared/shiny.js" type="text/javascript"></script>
+  <script src="shared/slider/js/jquery.slider.min.js"></script>
+  <script src="shared/bootstrap/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="shared/slider/css/jquery.slider.min.css"></link>
+  
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
