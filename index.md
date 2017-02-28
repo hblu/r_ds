@@ -9,9 +9,6 @@ hitheme     : tomorrow      #
 widgets     : [quiz, bootstrap, shiny, interactive, mathjax]            # {mathjax, quiz, bootstrap}
 mode        : selfcontained # {standalone, draft}
 ext_widgets: {rCharts: [libraries/nvd3]}
-github:
-  user: hblu
-  repo: stat
 --- &twocol
 
 
@@ -51,7 +48,7 @@ xtable(head(movie,3))
 ```
 
 <!-- html table generated in R 3.3.2 by xtable 1.8-2 package -->
-<!-- Wed Mar  1 01:28:49 2017 -->
+<!-- Wed Mar  1 01:35:47 2017 -->
 <table border=1>
 <tr> <th>  </th> <th> name </th> <th> boxoffice </th> <th> doubanscore </th> <th> type </th> <th> duration </th> <th> showtime </th> <th> director </th> <th> star1 </th> <th> index1 </th> <th> star2 </th> <th> index2 </th>  </tr>
   <tr> <td align="right"> 1 </td> <td> 叶问3 </td> <td align="right"> 77060.44 </td> <td align="right"> 6.40 </td> <td> 动作 </td> <td align="right"> 105 </td> <td> 2016/3/4 </td> <td> 叶伟信 </td> <td> 甄子丹 </td> <td align="right"> 11385 </td> <td> 张晋 </td> <td align="right"> 4105 </td> </tr>
@@ -415,7 +412,7 @@ Sys.time()#输出系统时间
 ```
 
 ```
-[1] "2017-03-01 01:28:50 CST"
+[1] "2017-03-01 01:35:47 CST"
 ```
 
 ```r
@@ -439,7 +436,7 @@ format(Sys.time(),format = "%Y/%B/%a %H:%M:%S")#提取部分时间信息
 ```
 
 ```
-[1] "2017/March/Wed 01:28:50"
+[1] "2017/March/Wed 01:35:47"
 ```
 
 ---
