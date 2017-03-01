@@ -9,7 +9,16 @@ hitheme     : tomorrow      #
 widgets     : [quiz, bootstrap, shiny, interactive, mathjax]            # {mathjax, quiz, bootstrap}
 mode        : selfcontained # {standalone, draft}
 ext_widgets: {rCharts: [libraries/nvd3]}
+github:
+  user: hblu
+  repo: r_ds
 --- &twocol
+
+<style>
+.title-slide {
+  background-color: #F1FAFA; /* #EDE0CF; ; #CA9F9D*/
+}
+</style>
 
 ```{r setup, include=FALSE,echo = F, message = F, warning = F, tidy = F}
 # make this an external chunk that can be included in any file
